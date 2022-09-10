@@ -19,9 +19,8 @@ fn main() -> Result<()> {
     env_logger::init();
     let cli = Cli::parse();
 
-    // KISS w/ JSON file instead of database
+    // KISS w/ JSON hidden file instead of database
     info!("Obtaining file from disk");
-
     let mut task_interface = TaskContainer::new()?;
 
     // Suboptimal handling of enum variant.
@@ -36,7 +35,6 @@ fn main() -> Result<()> {
         Commands::Randomise { topic } => task_interface.handle_randomise(topic),
     }?;
 
-    // let TaskContainer{user_tasks, ..} = task_interface;
     task_interface.write_to_disk()?;
 
     Ok(())
