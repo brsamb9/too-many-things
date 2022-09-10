@@ -16,6 +16,8 @@ pub enum Commands {
         task: String,
         #[clap(long, value_parser)]
         task_description: Option<String>,
+        #[clap(long, value_parser)]
+        link: Option<String>,
     },
     Read {
         #[clap(long, value_parser)]

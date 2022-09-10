@@ -38,10 +38,11 @@ impl TaskContainer {
         topic: String,
         task: String,
         task_description: Option<String>,
+        link: Option<String>,
     ) -> Result<()> {
         info!("Creating {task} for {topic}");
         let topic_map = self.user_tasks.topic_hashmap.get_mut(topic.as_str());
-        let task = Task::new(task, task_description);
+        let task = Task::new(task, task_description, link);
         // Check branches for collison? Or leave as no-op
         match topic_map {
             Some(topic) => {
@@ -87,7 +88,7 @@ impl TaskContainer {
                 self.user_tasks
                     .topic_hashmap
                     .get_mut(&topic)
-                    .map(|f| f.tasks.remove(&Task::new(task, None)));
+                    .map(|f| f.tasks.remove(&Task::new(task, None, None)));
             }
         }
         Ok(())
@@ -208,12 +209,14 @@ impl From<Task> for Topic {
 pub struct Task {
     pub task_name: String,
     pub task_description: Option<String>,
+    pub link: Option<String>,
 }
 impl Task {
-    fn new(task_name: String, task_description: Option<String>) -> Self {
+    fn new(task_name: String, task_description: Option<String>, link: Option<String>) -> Self {
         Self {
             task_name,
             task_description,
+            link,
         }
     }
 }
