@@ -127,7 +127,7 @@ impl TaskContainer {
         }
 
         let random_task = Self::random_from_list(&task_list);
-        println!("Go and do: \n{random_task:#?}");
+        println!("Go and do - {random_topic}:\n{random_task:#?}");
 
         Ok(())
     }
