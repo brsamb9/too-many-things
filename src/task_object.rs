@@ -127,7 +127,7 @@ impl TaskContainer {
         }
 
         let random_task = Self::random_from_list(&task_list);
-        println!("Go and do - {random_topic}:\n{random_task:#?}");
+        println!("🎓\t{random_topic}\t🎓\n{random_task:#?}");
 
         Ok(())
     }
@@ -205,7 +205,7 @@ impl From<Task> for Topic {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Serialize, Deserialize)]
 pub struct Task {
     pub task_name: String,
     pub task_description: Option<String>,
@@ -218,6 +218,22 @@ impl Task {
             task_description,
             link,
         }
+    }
+}
+
+impl std::fmt::Debug for Task {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let output = [
+            format!("🔥 Task: {} 🔥", self.task_name),
+            self.task_description.clone().map(|s| format!("\n✉️    Task Description: {s}")).unwrap_or_default(),
+            self.link.clone().map(|s| format!("\n🔗    Link: {s}")).unwrap_or_default(),
+        ]
+        .into_iter()
+        .filter(|s| !s.is_empty())
+        .collect::<Vec<String>>()
+        .join("");
+
+        write!(f, "{output}")
     }
 }
 
